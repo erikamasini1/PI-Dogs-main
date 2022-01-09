@@ -4,9 +4,10 @@ const { Dog, Temperament } = require("../db");
 const { all } = require("../routes");
 const { API_KEY } = process.env;
 
-const getApiDogs = async (req, res) => {
+const getApiDogs = async () => {
   const apiDogs = await axios.get( `https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}` );
   const allApiInfo = apiDogs.data;
+  // VIDEO const allApiInfo = await apiDogs.data.map(el => {return { name:el.name}});
   const allApiDogs = allApiInfo.map((dog) => {
     return {
       id: dog.id,
@@ -19,13 +20,21 @@ const getApiDogs = async (req, res) => {
     };
   });
  
-
-
   return allApiDogs;
 };
 
 const getDBDogs = async () => {
-  return await Dog.findAll();
+ 
+
+return await Dog.findAll({
+    include: {
+      model: Temperament,
+      attributes: ['name'],
+      through: {
+        attributes: []
+      }
+    }
+  });
 };
 
 const getAllDogs = async () => {
@@ -48,7 +57,8 @@ const showAllDogs = async (req, res) => {
 
     const { name } = req.query;
 
-    if (name) {
+    if (name) { 
+      //await
       const filteredDogs = allDogs.filter(dog =>
         dog.name.toLowerCase().includes(name.toLowerCase())
       );
@@ -73,6 +83,7 @@ const showDogsById = async (req, res) => {
         const {id} = req.params
         
         if(id){
+          //await
             const filteredDog = allDogs.filter(dog => dog.id === parseInt(id))
             
             if(filteredDog.length > 0){
@@ -88,7 +99,27 @@ const showDogsById = async (req, res) => {
 
  const getTemperaments = async (req,res) => {
   const apiDogs = await getApiDogs()
+
+  // const temperaments = apiDogs.map(temp => temp.temperament)
+
   
+
+  // const temEach = temperaments.map(temp => {
+  //   temp.split(', ')
+  // array de arrays
+  //   for (let i = 0; i < temp.length; i++) {
+  //     return temp[i]
+      
+  //   }
+  // })
+  // for (let i = 0; i < temperaments.length; i++) {
+  //   if(apiDogs[i].temperament){
+  //    apiDogs[i].temperament.split(', ')
+  //   }
+  //   // VER MINUTO 59 1,06
+  // }
+
+ 
 
   let array = []
   for(var i = 0; i < apiDogs.length; i++){
@@ -116,7 +147,10 @@ const showDogsById = async (req, res) => {
  }
 
  const postDog = async (req, res) => {
-   const {
+
+  //VALIDACION DE DATOS
+  // ADD VS SET -> ADD METODO SEQUELZE QUE ME TRAE DE LA TABLA LO QUE LE PASO ENTRE PARENTESIS
+   let {
           name,
           height,
           weight,
@@ -125,7 +159,7 @@ const showDogsById = async (req, res) => {
     } = req.body;
     console.log(req.body)
 
-   const newDog = Dog.create({
+   let newDog = await Dog.create({
           name,
           height,
           weight,
@@ -133,13 +167,15 @@ const showDogsById = async (req, res) => {
 
    })
 
-  //  temperament.forEach(element => {
-  //  let temp = Temperament.findOne({where: {name: element}})
-  //  console.log(Dog)
-  //  newDog.setTemperament(temp)
-  //  });
-res.send(newDog)
- }
+  
+
+  let temperamentDB = await Temperament.findAll({where: {id : temperament}})
+
+
+  newDog.addTemperament(temperamentDB)
+  res.send(newDog)
+
+}
 
  //const project = await Project.findOne({ where: { title: 'My Title' } });
 

@@ -1,15 +1,18 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
 
-export default function Dog({id, name, height, weight, temperaments}) {
+export default function Dog({ id, name, height, weight, temperaments, image }) {
     return (
-        <div>
+        <div style={{ width: '20%', display: 'inline-block', textAlign: 'left', padding: 10 }}>
             {/* <div>Dog number: {id}</div> */}
             {/* Name: <Link to={`/detail/${id}`}>{name}</Link> */}
-            <div>Name:  {name}</div>
+            <div style={{fontSize:18, fontWeight: 600 }}>{name}</div>
+
+            {image && <img src={image} alt='img' width='200' height='200' style={{ objectFit: 'cover', marginTop: 5 }} />}
             <div>Height:  {height}</div>
-            <div>Min Weight:  {weight}</div>
-            <div>Temperaments:  {temperaments}</div>
+            <div>Weight:  {weight}</div>
+            <div>Temperaments:  <div>{temperaments && temperaments.map(temp => { return temp.name + ' ' })} </div>
+            </div>
         </div>
     )
 }

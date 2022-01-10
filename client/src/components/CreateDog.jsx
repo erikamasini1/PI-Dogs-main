@@ -20,8 +20,9 @@ export default function CreateDog() {
         setInput(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    let dispatch = useDispatch();
+    let dispatch = useDispatch(1);
 
+    
 
     const optionsFromBack = useSelector(state => state.temperaments)
 

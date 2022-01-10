@@ -1,7 +1,8 @@
-import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS } from "./types"
+import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS, FILTERED_TEMPERAMENT, FILTERED_SOURCE } from "./types"
 import axios from 'axios'
 
 export function createDog(dog){
+
     
     let dogToBack = ({name, minHeight, maxHeight, minWeight, maxWeight, temperaments}) => {
         return {
@@ -64,4 +65,18 @@ export function getDogs(){
 //         .then(response => response.data.json())
 //         .then(info => dispatch({ type:GET_DOGS, payload: info}))
 
+// }
+
+// export function filteredDogsByTemperament(payload){
+//     return {
+//         type: FILTERED_TEMPERAMENT,
+//         payload
+//     }
+// }
+
+// export function filteredDogsBySource(payload){
+//     return {
+//         type: FILTERED_SOURCE,
+//         payload
+//     }
 // }

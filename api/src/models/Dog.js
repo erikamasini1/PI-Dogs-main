@@ -24,6 +24,10 @@ module.exports = (sequelize) => {
     },
     life_span: {
       type: DataTypes.STRING
+    },
+    source: {
+      type: DataTypes.STRING,
+      defaultValue: 'database'
     }
 
   }, {

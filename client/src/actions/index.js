@@ -4,11 +4,12 @@ import axios from 'axios'
 export function createDog(dog){
 
     
-    let dogToBack = ({name, minHeight, maxHeight, minWeight, maxWeight, temperaments}) => {
+    let dogToBack = ({name, minHeight, maxHeight, minWeight, maxWeight, life_span, temperaments}) => {
         return {
             name,
             height: `${minHeight} - ${maxHeight}`,
             weight: `${minWeight} - ${maxWeight}`,
+            life_span: `${life_span} years`,
             temperament: temperaments
         } 
     }
@@ -58,25 +59,3 @@ export function getDogs(){
         })
     }
 }
-
-
-// return function(dispatch){
-//     return axios('http://localhost:3001/dogs')
-//         .then(response => response.data.json())
-//         .then(info => dispatch({ type:GET_DOGS, payload: info}))
-
-// }
-
-// export function filteredDogsByTemperament(payload){
-//     return {
-//         type: FILTERED_TEMPERAMENT,
-//         payload
-//     }
-// }
-
-// export function filteredDogsBySource(payload){
-//     return {
-//         type: FILTERED_SOURCE,
-//         payload
-//     }
-// }

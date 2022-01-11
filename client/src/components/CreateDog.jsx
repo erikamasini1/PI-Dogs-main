@@ -4,6 +4,16 @@ import React, { Component, useEffect } from 'react';
 import { createDog, getTemperaments } from '../actions';
 import Select from 'react-select';
 
+
+
+export function validate(input){
+    let erros = {}
+    
+    // if(!input.name){
+    //     errors.name = `Dog's name required`
+    // } else if()
+}
+
 export default function CreateDog() {
 
     let [input, setInput] = React.useState({
@@ -12,39 +22,42 @@ export default function CreateDog() {
         maxHeight: '',
         minWeight: '',
         maxWeight: '',
+        life_span: '',
         temperaments: ''
     })
 
     let handleChange = e => {
+        const value = e.target.value.replace(/\+|-/ig, '');
+
         e.preventDefault();
-        setInput(prev => ({ ...prev, [e.target.name]: e.target.value }))
+        setInput(prev => ({ ...prev, [e.target.name]: value }))
     }
 
     let dispatch = useDispatch(1);
 
-    
+
 
     const optionsFromBack = useSelector(state => state.temperaments)
 
     useEffect(() => {
         dispatch(getTemperaments())
-      }, [])
+    }, [])
 
     const MyComponent = () => (
-        <Select options={optionsFromBack}  isMulti={'true'} name={'temperament'}/>
+        <Select options={optionsFromBack} isMulti={'true'} name={'temperament'} />
     )
 
-//    const options = temperaments.map((temperament) => return {value: temperament.id, label: temperament.name})
+    //    const options = temperaments.map((temperament) => return {value: temperament.id, label: temperament.name})
 
     //  const MyComponent = () => (
     //      <Select options={options} />
     //    )
 
-    
 
-    let handleChangeTest = e => {
-        setInput(prev => ({ ...prev, temperaments: e.map(el =>  el.value )}))
-        console.log(e.map(el =>  el.value ))
+
+    let handleTemperament = e => {
+        setInput(prev => ({ ...prev, temperaments: e.map(el => el.value) }))
+        console.log(e.map(el => el.value))
         console.log(e)
         console.log(input)
     }
@@ -59,11 +72,16 @@ export default function CreateDog() {
             maxHeight: '',
             minWeight: '',
             maxWeight: '',
+            life_span: '',
             temperaments: ''
         })
-
     }
 
+    let onlyNumbers = (e) => {
+        if (!/[0-9]/.test(e.key)) {
+            e.preventDefault();
+        }
+    }
 
     return (
         <div>
@@ -76,27 +94,31 @@ export default function CreateDog() {
                 </div>
                 <div>
                     <label>MIN HEIGHT</label>
-                    <input type={'text'} name={'minHeight'} value={input.minHeight} onChange={e => handleChange(e)} />
+                    <input type={'text'} name={'minHeight'} onKeyPress={onlyNumbers} value={input.minHeight} onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>MAX HEIGHT</label>
-                    <input type={'text'} name={'maxHeight'} value={input.maxHeight} onChange={e => handleChange(e)} />
+                    <input type={'text'} name={'maxHeight'} onKeyPress={onlyNumbers} value={input.maxHeight} onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>MIN WEIGHT</label>
-                    <input type={'text'} name={'minWeight'} value={input.minWeight} onChange={e => handleChange(e)} />
+                    <input type={'text'} name={'minWeight'} onKeyPress={onlyNumbers} value={input.minWeight} onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>MAX WEIGHT</label>
-                    <input type={'text'} name={'maxWeight'} value={input.maxWeight} onChange={e => handleChange(e)} />
+                    <input type={'text'} name={'maxWeight'} onKeyPress={onlyNumbers} value={input.maxWeight} onChange={e => handleChange(e)} />
+                </div>
+                <div>
+                    <label>LIFE SPAN</label>
+                    <input type={'text'} name={'life_span'} onKeyPress={onlyNumbers} value={input.life_span}  onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>TEMPERAMENTS</label>
-                   
-                    <Select options={optionsFromBack}  isMulti={'true'} name={'temperaments'} onChange={e => handleChangeTest(e)} />
+
+                    <Select options={optionsFromBack} isMulti={'true'} name={'temperaments'} onChange={e => handleTemperament(e)} />
                     {/* <MyComponent name={'temperaments'} value={input.temperaments} onChange={e => handleChange(e)}/>   */}
                 </div>
-               
+
                 <br />
                 <button type={'submit'} onSubmit={e => handleSubmit(e)}>SUMBIT DOG</button>
             </form>

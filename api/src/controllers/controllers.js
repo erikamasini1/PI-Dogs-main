@@ -11,6 +11,7 @@ const getApiDogs = async () => {
   const allApiInfo = apiDogs.data;
   // VIDEO const allApiInfo = await apiDogs.data.map(el => {return { name:el.name}});
   const allApiDogs = allApiInfo.map((dog) => {
+
     return {
       id: dog.id,
       name: dog.name,

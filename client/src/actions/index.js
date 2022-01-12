@@ -1,16 +1,19 @@
-import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS, FILTERED_TEMPERAMENT, FILTERED_SOURCE } from "./types"
+import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS, GET_DOG, GET_DOG_BY_ID } from "./types"
 import axios from 'axios'
 
 export function createDog(dog){
 
     
-    let dogToBack = ({name, minHeight, maxHeight, minWeight, maxWeight, life_span, temperaments}) => {
+    let dogToBack = ({name, minHeight, maxHeight, minWeight, maxWeight, life_span, image, temperaments}) => {
         return {
             name,
-            height: `${minHeight} - ${maxHeight}`,
-            weight: `${minWeight} - ${maxWeight}`,
-            life_span: `${life_span} years`,
-            temperament: temperaments
+            min_height: parseInt(minHeight),
+            max_height: parseInt(maxHeight),
+            min_weight: parseInt(minWeight),
+            max_weight: parseInt(maxWeight),
+            life_span: parseInt(life_span),
+            image,
+            temperament: temperaments.map(el => el.value)
         } 
     }
 
@@ -56,6 +59,29 @@ export function getDogs(){
         return dispatch({
             type: GET_DOGS,
             payload: dogs
+        })
+    }
+}
+
+export function getDogByName(name){
+    return async function(dispatch){
+        var json = await axios(`http://localhost:3001/dogs?name=${name}`)
+        var dog = json.data
+        return dispatch({
+            type: GET_DOG,
+            payload: dog
+        })
+    }
+}
+
+
+export function getDogById(id){
+    return async function(dispatch){
+        var json = await axios(`http://localhost:3001/dogs/${id}`)
+        var dog = json.data
+        return dispatch({
+            type: GET_DOG_BY_ID,
+            payload: dog
         })
     }
 }

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDogs, getTemperaments } from "../actions";
 import { Link } from 'react-router-dom'
 import Dog from "./Dog";
+import SearchBar from './SearchBar';
 import Select from 'react-select';
 
 
@@ -50,29 +51,26 @@ export default function Home() {
         if (temperamentsList) {
             temperamentsList.unshift(defaultTemperaments)
         }
+    }, [temperamentsList])
 
-        if (getAllDogs){
+    useEffect(() => {
+        if (getAllDogs) {
             for (let i = 0; i < getAllDogs.length; i++) {
-                getAllDogs[i].weightToArray = getAllDogs[i].weight.split(' - ')
-                if (getAllDogs[i].weightToArray.length === 2) {
-                    const minWeight = isNaN(getAllDogs[i].weightToArray[0]) ? 0 : parseInt(getAllDogs[i].weightToArray[0]);
-                    const maxWeight = isNaN(getAllDogs[i].weightToArray[1]) ? 0 : parseInt(getAllDogs[i].weightToArray[1]);
-                    getAllDogs[i].weightAverage = (minWeight + maxWeight) / 2
-                } else if (!isNaN(getAllDogs[i].weight)) {
-                    getAllDogs[i].weightAverage = parseInt(getAllDogs[i].weight);
-                }
+                const minWeight = getAllDogs[i].min_weight ? getAllDogs[i].min_weight : 0
+                const maxWeight = getAllDogs[i].max_weight ? getAllDogs[i].max_weight : 0
+                getAllDogs[i].weightAverage = (minWeight + maxWeight) / 2
+
             }
         }
-
-
-    }, [getAllDogs, temperamentsList])
+        resetFilters();
+    }, [getAllDogs])
 
 
     useEffect(() => {
         displaySelectedDogs();
     }, [getAllDogs, filteredBySource, filteredByTemperaments, sortedDogs])
 
-  
+
 
     function displaySelectedDogs() {
 
@@ -119,16 +117,20 @@ export default function Home() {
         }
 
         let dogsToSet = currentPage === 1 ? dogsToFilterByTemp.slice(0, 8) : dogsToFilterByTemp.slice(8 * (currentPage - 1), 8 * (currentPage))
-        
+
         setDogsPerPage(dogsToSet);
     }
 
-    function handleReloadDogs(e) {
+    function resetFilters() {
         setCurrentPage(1)
-         setFilteredBySource(sourceFilters[0])
-         setFilteredByTemperaments({ id: 0, value: 'all', label: 'All Temperaments' })
-         setSortedDogs(sortedOptions[0])
+        setFilteredBySource(sourceFilters[0])
+        setFilteredByTemperaments({ id: 0, value: 'all', label: 'All Temperaments' })
+        setSortedDogs(sortedOptions[0])
+    }
 
+    function handleReloadDogs(e) {
+        dispatch(getDogs());
+        resetFilters();
     }
 
     function handlePreviousPage(e) {
@@ -161,14 +163,15 @@ export default function Home() {
 
     return (
         <div>
-            <Link to='/dog'>CREATE DOG</Link>
             <div>This is the Dog's API</div>
             <button onClick={e => handleReloadDogs(e)}> Reload all dogs</button>
+            <SearchBar />
             <div>
                 <div style={{ display: 'inline-block', margin: 10 }}>
                     <div style={{ display: 'inline-block', width: 200, marginRight: 10 }}>
                         <Select options={sortedOptions} value={sortedDogs} onChange={e => handleSort(e)} />
                     </div>
+                    {/* <div>{defalultImg.url}</div> */}
                     <div style={{ display: 'inline-block', width: 200, marginRight: 10 }}>
                         <Select options={temperamentsList} value={filteredByTemperaments} onChange={e => handleFilteredTemperament(e)} />
                     </div>
@@ -176,20 +179,16 @@ export default function Home() {
                         <Select options={sourceFilters} value={filteredBySource} onChange={handleFilteredSource} />
                     </div>
                 </div>
-
-
-
-
                 <div>
                     {currentPage > 1 && <button onClick={e => handlePreviousPage(e)}> Previous </button>}
                     <span >  | {currentPage}  of {maxPage}| </span>
                     {currentPage < maxPage && <button onClick={e => handleNextPage(e)}>  Next</button>}
                 </div>
                 {
-                    dogsPerPage && dogsPerPage.map((dog, id) => {
+                    dogsPerPage && dogsPerPage.map(dog => {
                         return (
 
-                            <Dog key={id} name={dog.name} height={dog.height} weight={dog.weight} life_span={dog.life_span} temperaments={dog.temperaments} image={dog.image} />
+                            <Dog key={dog.id} id={dog.id} name={dog.name} min_weight={dog.min_weight} max_weight={dog.max_weight} temperaments={dog.temperaments} image={dog.image} />
                         )
                     })
                 }

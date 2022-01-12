@@ -6,34 +6,64 @@ import Select from 'react-select';
 
 
 
-export function validate(input){
-    let erros = {}
-    
-    // if(!input.name){
-    //     errors.name = `Dog's name required`
-    // } else if()
+
+export function validate(input) {
+    let errors = { hasErrors: false }
+
+    if (!input.name) {
+        errors.name = `Dog's name required`;
+        errors.hasErrors = true;
+    }
+
+    if (!input.minWeight) {
+        errors.minWeight = `Dog's minimun weight is required`
+        errors.hasErrors = true;
+    } else if (!/^[0-9]*$/.test(input.minWeight)) {
+        errors.minWeight = 'Weight must be a number'
+        errors.hasErrors = true;
+    }
+
+    if (!input.maxWeight) {
+        errors.maxWeight = `Dog's maximum weight is required`
+        errors.hasErrors = true;
+    } else if (!/^[0-9]*$/.test(input.minWeight)) {
+        errors.maxWeight = 'Weight must be a number'
+        errors.hasErrors = true;
+    }
+
+    if(input.minWeight > input.maxWeight){
+        errors.minWeight = `Dog's maximum weight must be equal or greater than minimum weight`
+        errors.hasErrors = true;
+    }
+
+    return errors;
+
 }
 
 export default function CreateDog() {
 
     let [input, setInput] = React.useState({
         name: '',
-        minHeight: '',
-        maxHeight: '',
-        minWeight: '',
-        maxWeight: '',
-        life_span: '',
+        minHeight: 0,
+        maxHeight: 0,
+        minWeight: 0,
+        maxWeight: 0,
+        life_span: 0,
+        image:'',
         temperaments: ''
     })
 
+    let [errors, setErrors] = React.useState({});
+
     let handleChange = e => {
-        const value = e.target.value.replace(/\+|-/ig, '');
+        // const value = e.target.value.replace(/\+|-/ig, '');
 
         e.preventDefault();
-        setInput(prev => ({ ...prev, [e.target.name]: value }))
+        setInput(prev => ({ ...prev, [e.target.name]: e.target.value }))
+        setErrors(validate({ ...input, [e.target.name]: e.target.value }))
     }
 
-    let dispatch = useDispatch(1);
+    let dispatch = useDispatch();
 
 
 
@@ -43,38 +73,26 @@ export default function CreateDog() {
         dispatch(getTemperaments())
     }, [])
 
-    const MyComponent = () => (
-        <Select options={optionsFromBack} isMulti={'true'} name={'temperament'} />
-    )
-
-    //    const options = temperaments.map((temperament) => return {value: temperament.id, label: temperament.name})
-
-    //  const MyComponent = () => (
-    //      <Select options={options} />
-    //    )
-
-
-
     let handleTemperament = e => {
-        setInput(prev => ({ ...prev, temperaments: e.map(el => el.value) }))
-        console.log(e.map(el => el.value))
-        console.log(e)
-        console.log(input)
+        setInput(prev => ({ ...prev, temperaments: e }))
     }
 
     let handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(createDog(input))
-        console.log(e)
-        setInput({
-            name: '',
-            minHeight: '',
-            maxHeight: '',
-            minWeight: '',
-            maxWeight: '',
-            life_span: '',
-            temperaments: ''
-        })
+        if (!validate(input).hasErrors) {
+            dispatch(createDog(input))
+            console.log(e)
+            setInput({
+                name: '',
+                minHeight: '',
+                maxHeight: '',
+                minWeight: '',
+                maxWeight: '',
+                life_span: '',
+                image:'',
+                temperaments: ''
+            })
+        }
     }
 
     let onlyNumbers = (e) => {
@@ -91,31 +109,38 @@ export default function CreateDog() {
                 <div>
                     <label>NAME</label>
                     <input type={'text'} name={'name'} value={input.name} onChange={e => handleChange(e)} />
+                    {errors.name && (<p style={{ color: 'red' }}>{errors.name}</p>)}
                 </div>
                 <div>
                     <label>MIN HEIGHT</label>
-                    <input type={'text'} name={'minHeight'} onKeyPress={onlyNumbers} value={input.minHeight} onChange={e => handleChange(e)} />
+                    <input type={'number'} name={'minHeight'} onKeyPress={onlyNumbers} value={input.minHeight} onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>MAX HEIGHT</label>
-                    <input type={'text'} name={'maxHeight'} onKeyPress={onlyNumbers} value={input.maxHeight} onChange={e => handleChange(e)} />
+                    <input type={'number'} name={'maxHeight'} onKeyPress={onlyNumbers} value={input.maxHeight} onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>MIN WEIGHT</label>
-                    <input type={'text'} name={'minWeight'} onKeyPress={onlyNumbers} value={input.minWeight} onChange={e => handleChange(e)} />
+                    <input type={'number'} name={'minWeight'} onKeyPress={onlyNumbers} value={input.minWeight} onChange={e => handleChange(e)} />
+                    {errors.minWeight && (<p style={{ color: 'red' }}>{errors.minWeight}</p>)}
                 </div>
                 <div>
                     <label>MAX WEIGHT</label>
-                    <input type={'text'} name={'maxWeight'} onKeyPress={onlyNumbers} value={input.maxWeight} onChange={e => handleChange(e)} />
+                    <input type={'number'} name={'maxWeight'} onKeyPress={onlyNumbers} value={input.maxWeight} onChange={e => handleChange(e)} />
+                    {errors.maxWeight && (<p style={{ color: 'red' }}>{errors.maxWeight}</p>)}
                 </div>
                 <div>
                     <label>LIFE SPAN</label>
-                    <input type={'text'} name={'life_span'} onKeyPress={onlyNumbers} value={input.life_span}  onChange={e => handleChange(e)} />
+                    <input type={'number'} name={'life_span'} onKeyPress={onlyNumbers} value={input.life_span} onChange={e => handleChange(e)} />
+                </div>
+                <div>
+                    <label>IMAGE</label>
+                    <input type={'text'} name={'image'} value={input.image} onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>TEMPERAMENTS</label>
 
-                    <Select options={optionsFromBack} isMulti={'true'} name={'temperaments'} onChange={e => handleTemperament(e)} />
+                    <Select options={optionsFromBack} isMulti={'true'} value={input.temperaments} name={'temperaments'} onChange={e => handleTemperament(e)} />
                     {/* <MyComponent name={'temperaments'} value={input.temperaments} onChange={e => handleChange(e)}/>   */}
                 </div>
 

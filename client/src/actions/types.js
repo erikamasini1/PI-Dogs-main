@@ -3,3 +3,5 @@ export const GET_DOGS = 'GET_DOGS';
 export const GET_TEMPERAMENTS= 'GET_TEMPERAMENTS';
 export const FILTERED_TEMPERAMENT= 'FILTERED_TEMPERAMENT';
 export const FILTERED_SOURCE= 'FILTERED_SOURCE';
+export const GET_DOG = 'GET_DOG';
+export const GET_DOG_BY_ID = 'GET_DOG_BY_ID';

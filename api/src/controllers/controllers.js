@@ -9,14 +9,34 @@ const getApiDogs = async () => {
     `https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`
   );
   const allApiInfo = apiDogs.data;
-  // VIDEO const allApiInfo = await apiDogs.data.map(el => {return { name:el.name}});
+
   const allApiDogs = allApiInfo.map((dog) => {
+
+    dog.weightToArray = dog.weight.metric.split(' - ')
+    if (dog.weightToArray.length === 2) {
+        dog.min_weight = isNaN(dog.weightToArray[0]) ? 0 : parseInt(dog.weightToArray[0]);
+        dog.max_weight = isNaN(dog.weightToArray[1]) ? 0 : parseInt(dog.weightToArray[1]);
+    } else if (!isNaN(dog.weight.metric)) {
+        dog.min_weight = parseInt(dog.weight.metric);
+        dog.max_weight = parseInt(dog.weight.metric);
+    }
+
+    dog.heightToArray = dog.height.metric.split(' - ')
+    if (dog.heightToArray.length === 2) {
+        dog.min_height = isNaN(dog.heightToArray[0]) ? 0 : parseInt(dog.heightToArray[0]);
+        dog.max_height = isNaN(dog.heightToArray[1]) ? 0 : parseInt(dog.heightToArray[1]);
+    } else if (!isNaN(dog.height.metric)) {
+        dog.min_height = parseInt(dog.height.metric);
+        dog.max_height = parseInt(dog.height.metric);
+    }
 
     return {
       id: dog.id,
       name: dog.name,
-      height: dog.height.metric,
-      weight: dog.weight.metric,
+      min_height: dog.min_height,
+      max_height: dog.max_height,
+      min_weight: dog.min_weight,
+      max_weight: dog.max_weight,
       life_span: dog.life_span,
       source: 'thedogapi',
       temperaments: dog.temperament
@@ -88,12 +108,12 @@ const showDogsById = async (req, res) => {
   try {
     const allDogs = await getAllDogs();
     const { id } = req.params;
-
-    if (id) {
+    if (id ) {
+      console.log (id )
       //await
-      const filteredDog = allDogs.filter((dog) => dog.id === parseInt(id));
+      const filteredDog = allDogs.find((dog) => dog.id.toString() === id.toString());
 
-      if (filteredDog.length > 0) {
+      if (filteredDog) {
         res.json(filteredDog);
       } else {
         res
@@ -149,22 +169,18 @@ const getTemperaments = async (req, res) => {
 };
 
 const postDog = async (req, res) => {
-  //VALIDACION DE DATOS
-  // ADD VS SET -> ADD METODO SEQUELZE QUE ME TRAE DE LA TABLA LO QUE LE PASO ENTRE PARENTESIS
-  let { name, height, weight, life_span, temperament } = req.body;
-  console.log(req.body);
+  try {
 
-  let newDog = await Dog.create({
-    name,
-    height,
-    weight,
-    life_span,
-  });
+  let newDog = await Dog.create(req.body);
 
   let temperamentDB = await Temperament.findAll({ where: { id: temperament } });
 
   newDog.addTemperament(temperamentDB);
   res.send(newDog);
+} catch(e){
+  console.error('Dog not created ', e);
+  res.status(500).send('Dog not created')
+}
 };
 
 //const project = await Project.findOne({ where: { title: 'My Title' } });

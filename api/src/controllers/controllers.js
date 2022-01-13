@@ -173,7 +173,7 @@ const postDog = async (req, res) => {
 
   let newDog = await Dog.create(req.body);
 
-  let temperamentDB = await Temperament.findAll({ where: { id: temperament } });
+  let temperamentDB = await Temperament.findAll({ where: { id: req.body.temperament } });
 
   newDog.addTemperament(temperamentDB);
   res.send(newDog);

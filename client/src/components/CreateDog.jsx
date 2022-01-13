@@ -113,25 +113,25 @@ export default function CreateDog() {
                 </div>
                 <div>
                     <label>MIN HEIGHT</label>
-                    <input type={'number'} name={'minHeight'} onKeyPress={onlyNumbers} value={input.minHeight} onChange={e => handleChange(e)} />
+                    <input type={'text'} name={'minHeight'} onKeyPress={onlyNumbers} value={input.minHeight} onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>MAX HEIGHT</label>
-                    <input type={'number'} name={'maxHeight'} onKeyPress={onlyNumbers} value={input.maxHeight} onChange={e => handleChange(e)} />
+                    <input type={'text'} name={'maxHeight'} onKeyPress={onlyNumbers} value={input.maxHeight} onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>MIN WEIGHT</label>
-                    <input type={'number'} name={'minWeight'} onKeyPress={onlyNumbers} value={input.minWeight} onChange={e => handleChange(e)} />
+                    <input type={'text'} name={'minWeight'} onKeyPress={onlyNumbers} value={input.minWeight} onChange={e => handleChange(e)} />
                     {errors.minWeight && (<p style={{ color: 'red' }}>{errors.minWeight}</p>)}
                 </div>
                 <div>
                     <label>MAX WEIGHT</label>
-                    <input type={'number'} name={'maxWeight'} onKeyPress={onlyNumbers} value={input.maxWeight} onChange={e => handleChange(e)} />
+                    <input type={'text'} name={'maxWeight'} onKeyPress={onlyNumbers} value={input.maxWeight} onChange={e => handleChange(e)} />
                     {errors.maxWeight && (<p style={{ color: 'red' }}>{errors.maxWeight}</p>)}
                 </div>
                 <div>
                     <label>LIFE SPAN</label>
-                    <input type={'number'} name={'life_span'} onKeyPress={onlyNumbers} value={input.life_span} onChange={e => handleChange(e)} />
+                    <input type={'text'} name={'life_span'} onKeyPress={onlyNumbers} value={input.life_span} onChange={e => handleChange(e)} />
                 </div>
                 <div>
                     <label>IMAGE</label>
@@ -141,7 +141,6 @@ export default function CreateDog() {
                     <label>TEMPERAMENTS</label>
 
                     <Select options={optionsFromBack} isMulti={'true'} value={input.temperaments} name={'temperaments'} onChange={e => handleTemperament(e)} />
-                    {/* <MyComponent name={'temperaments'} value={input.temperaments} onChange={e => handleChange(e)}/>   */}
                 </div>
 
                 <br />

@@ -184,6 +184,7 @@ export default function Home() {
                     <span >  | {currentPage}  of {maxPage}| </span>
                     {currentPage < maxPage && <button onClick={e => handleNextPage(e)}>  Next</button>}
                 </div>
+             
                 {
                     dogsPerPage && dogsPerPage.map(dog => {
                         return (

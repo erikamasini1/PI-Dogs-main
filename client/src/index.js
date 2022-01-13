@@ -9,7 +9,7 @@ import store from './store';
 
 
 ReactDOM.render(
-  // el Provider sirve para indicarle a mi aplicacion que estoy trabajando con store, si no no funciona Redux
+ 
   <Provider store={store}>    
   <BrowserRouter>
     <App />

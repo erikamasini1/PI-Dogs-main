@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { createDog, getTemperaments } from '../actions';
 import Select from 'react-select';
 
@@ -9,6 +9,7 @@ import Select from 'react-select';
 
 export function validate(input) {
     let errors = { hasErrors: false }
+    console.log("input", input)
 
     if (!input.name) {
         errors.name = `Dog's name required`;
@@ -16,7 +17,7 @@ export function validate(input) {
     }
 
     if (!input.minWeight) {
-        errors.minWeight = `Dog's minimun weight is required`
+        errors.minWeight = `Dog's minimum weight is required`
         errors.hasErrors = true;
     } else if (!/^[0-9]*$/.test(input.minWeight)) {
         errors.minWeight = 'Weight must be a number'
@@ -31,8 +32,29 @@ export function validate(input) {
         errors.hasErrors = true;
     }
 
-    if(input.minWeight > input.maxWeight){
+    if (!input.minHeight) {
+        errors.minHeight = `Dog's minimum height is required`
+        errors.hasErrors = true;
+    } else if (!/^[0-9]*$/.test(input.minHeight)) {
+        errors.minHeight = 'Height must be a number'
+        errors.hasErrors = true;
+    }
+
+    if (!input.maxHeight) {
+        errors.maxHeight = `Dog's maximum height is required`
+        errors.hasErrors = true;
+    } else if (!/^[0-9]*$/.test(input.maxHeight)) {
+        errors.maxHeight = 'Height must be a number'
+        errors.hasErrors = true;
+    }
+
+    if(parseInt(input.minWeight) > parseInt(input.maxWeight)){
         errors.minWeight = `Dog's maximum weight must be equal or greater than minimum weight`
+        errors.hasErrors = true;
+    }
+
+    if(parseInt(input.minHeight) > parseInt(input.maxHeight)){
+        errors.minHeight = `Dog's maximum weight must be equal or greater than minimum weight`
         errors.hasErrors = true;
     }
 
@@ -44,11 +66,11 @@ export default function CreateDog() {
 
     let [input, setInput] = React.useState({
         name: '',
-        minHeight: 0,
-        maxHeight: 0,
-        minWeight: 0,
-        maxWeight: 0,
-        life_span: 0,
+        minHeight: '',
+        maxHeight: '',
+        minWeight: '',
+        maxWeight: '',
+        life_span: '',
         image:'',
         temperaments: ''
     })
@@ -114,10 +136,12 @@ export default function CreateDog() {
                 <div>
                     <label>MIN HEIGHT</label>
                     <input type={'text'} name={'minHeight'} onKeyPress={onlyNumbers} value={input.minHeight} onChange={e => handleChange(e)} />
+                    {errors.minHeight && (<p style={{ color: 'red' }}>{errors.minHeight}</p>)}
                 </div>
                 <div>
                     <label>MAX HEIGHT</label>
                     <input type={'text'} name={'maxHeight'} onKeyPress={onlyNumbers} value={input.maxHeight} onChange={e => handleChange(e)} />
+                    {errors.maxHeight && (<p style={{ color: 'red' }}>{errors.maxHeight}</p>)}
                 </div>
                 <div>
                     <label>MIN WEIGHT</label>

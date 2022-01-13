@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDogs, getTemperaments } from "../actions";
-import { Link } from 'react-router-dom'
 import Dog from "./Dog";
 import SearchBar from './SearchBar';
 import Select from 'react-select';
@@ -15,9 +14,6 @@ export default function Home() {
     let [currentPage, setCurrentPage] = useState(1);
     const [maxPage, setMaxPage] = useState(10)
     const [filteredByTemperaments, setFilteredByTemperaments] = useState({ id: 0, value: 'all', label: 'All Temperaments' });
-
-    let previous = currentPage - 1;
-    let next = currentPage + 1;
 
     let defaultTemperaments = { id: 0, value: 'all', label: 'All Temperaments' }
 
@@ -48,7 +44,7 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        if (temperamentsList) {
+        if (temperamentsList && temperamentsList.length > 0) {
             temperamentsList.unshift(defaultTemperaments)
         }
     }, [temperamentsList])
@@ -56,10 +52,9 @@ export default function Home() {
     useEffect(() => {
         if (getAllDogs) {
             for (let i = 0; i < getAllDogs.length; i++) {
-                const minWeight = getAllDogs[i].min_weight ? getAllDogs[i].min_weight : 0
-                const maxWeight = getAllDogs[i].max_weight ? getAllDogs[i].max_weight : 0
-                getAllDogs[i].weightAverage = (minWeight + maxWeight) / 2
-
+                const minWeight = getAllDogs[i].min_weight ? getAllDogs[i].min_weight : 0;
+                const maxWeight = getAllDogs[i].max_weight ? getAllDogs[i].max_weight : 0;
+                getAllDogs[i].weightAverage = (minWeight + maxWeight) / 2;
             }
         }
         resetFilters();
@@ -69,8 +64,6 @@ export default function Home() {
     useEffect(() => {
         displaySelectedDogs();
     }, [getAllDogs, filteredBySource, filteredByTemperaments, sortedDogs])
-
-
 
     function displaySelectedDogs() {
 
@@ -88,7 +81,6 @@ export default function Home() {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) {
                     return -1;
                 }
-                // a must be equal to b
                 return 0;
             });
         } else if (sortedDogs.value === 'descendingAlfabetic') {
@@ -100,7 +92,6 @@ export default function Home() {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) {
                     return 1;
                 }
-                // a must be equal to b
                 return 0;
             });
         } else {

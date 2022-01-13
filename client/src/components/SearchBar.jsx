@@ -16,6 +16,7 @@ export default function SearchBar(){
         e.preventDefault();
         dispatch(getDogByName(name))
         
+        
     }
 
     return (

@@ -5,7 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-width:1000px;        /* Suppose you want minimum width of 1000px */
+  width: auto !important;  /* Firefox will set width as auto */
+  width:1000px;            /* As IE6 ignores !important it will set width as 1000px; */
 }
+
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -13,10 +18,10 @@ code {
 }
 
 button {
-  background-color: #4CAF50; /* Green */
+  background-color: #FFFF01;
   border: 1px solid #fff;
   border-radius: 7px;
-  color: white;
+  color: black;
   padding: 10px;
   text-align: center;
   text-decoration: none;

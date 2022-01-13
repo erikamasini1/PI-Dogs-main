@@ -1,13 +1,16 @@
 import React from "react";
 import {Link} from 'react-router-dom';
+import defaultDog from'../assets/landing.jpeg';
+
+import './LandingPage.css';
 
 export default function LandingPage(){
     return(
         <div>
-            <div>Welcome</div>
             <Link to={'/home'}>
-                <button>HOME</button> 
+                <div className='mainTitle'>WELCOME TO THE DOG'S API</div> 
             </Link>
+            <img src={defaultDog} alt='img' className='landingPageImage' />
         </div>
     )
 }

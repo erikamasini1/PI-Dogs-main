@@ -7,15 +7,9 @@ export default function NavBar() {
             <ul>
                 <li>
                     <NavLink to={'/home'}>Home</NavLink>
-                    </li>
-                <li>
-                    <NavLink to={'/dogs'}>Dogs</NavLink>
                 </li>
                 <li>
                     <NavLink to={'/create'}>Create</NavLink>
-                </li>
-                <li>
-                    <NavLink to={'/detail'}>Detalle</NavLink>
                 </li>
             </ul>
         </nav>

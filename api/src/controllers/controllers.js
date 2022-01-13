@@ -5,6 +5,7 @@ const { all } = require("../routes");
 const { API_KEY } = process.env;
 
 const getApiDogs = async () => {
+ try{
   const apiDogs = await axios.get(
     `https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`
   );
@@ -48,7 +49,11 @@ const getApiDogs = async () => {
     };
   });
 
+
   return allApiDogs;
+}catch(e){
+  console.log(e)
+}
 };
 
 const getDBDogs = async () => {
@@ -66,7 +71,7 @@ const getDBDogs = async () => {
 const getAllDogs = async () => {
   const allDogs = Promise.all([getApiDogs(), getDBDogs()]).then((value) => {
     return [].concat(...value);
-    // return [].concat.apply([], value);
+    
   });
   //   const apiDogs = await getApiDogs();
   //   const dBDogs = await getDBDogs();
@@ -82,7 +87,6 @@ const showAllDogs = async (req, res) => {
     const { name } = req.query;
 
     if (name) {
-      //await
       const filteredDogs = allDogs.filter((dog) =>
         dog.name.toLowerCase().includes(name.toLowerCase())
       );
@@ -101,6 +105,8 @@ const showAllDogs = async (req, res) => {
     }
   } catch (e) {
     console.log(e);
+    res.status(500).send('No dogs found, please try again')
+
   }
 };
 
@@ -129,27 +135,10 @@ const showDogsById = async (req, res) => {
 const getTemperaments = async (req, res) => {
   const apiDogs = await getApiDogs();
 
-  // const temperaments = apiDogs.map(temp => temp.temperament)
-
-  // const temEach = temperaments.map(temp => {
-  //   temp.split(', ')
-  // array de arrays
-  //   for (let i = 0; i < temp.length; i++) {
-  //     return temp[i]
-
-  //   }
-  // })
-  // for (let i = 0; i < temperaments.length; i++) {
-  //   if(apiDogs[i].temperament){
-  //    apiDogs[i].temperament.split(', ')
-  //   }
-  //   // VER MINUTO 59 1,06
-  // }
-
+   
   let array = [];
   for (var i = 0; i < apiDogs.length; i++) {
     if (apiDogs[i].temperaments) {
-      //allApiDogs[i].temperament = allApiDogs[i].temperament.split(', ')
       apiDogs[i].temperaments.forEach((temp) => {
         array.push(temp.name);
       });
@@ -170,6 +159,27 @@ const getTemperaments = async (req, res) => {
 
 const postDog = async (req, res) => {
   try {
+  
+  // let {name, max_height, max_weight, min_height, min_weight, life_span, temperament} = req.body;
+
+  // if(name && max_height && max_weight && min_height && min_weight){
+  //   let newDog = await Dog.create({
+  //     name,
+  //     min_weight,
+  //     max_weight,
+  //     min_height,
+  //     max_height,
+  //     life_span,
+  //     temperament
+  //   })
+
+  //   let temperamentDB = await Temperament.findAll({ where: { id: req.body.temperament } });
+  
+  //   newDog.addTemperament(temperamentDB);
+  //   res.send(newDog);
+  // } else {
+  //   res.status(400).send('Required fields missing')
+  // }
 
   let newDog = await Dog.create(req.body);
 

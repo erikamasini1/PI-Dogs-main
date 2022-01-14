@@ -1,0 +1,31 @@
+.handleError {
+    font-size: small;
+    color: red;
+    font-style: italic;
+}
+
+.imageCreateDog {
+    background-color: #ebebeb;
+    display: flex;
+    height: 100vh;
+}
+
+.title{
+    font-family: var(--font-family);
+    font-size: 20;
+    
+}
+
+.createBox{
+ align-self: center;
+ padding-left: 40%;
+ font-size: 15px;
+ 
+}
+
+.errors{
+    color:red;
+    font-size: 12px;
+    font-style: italic;
+}
+

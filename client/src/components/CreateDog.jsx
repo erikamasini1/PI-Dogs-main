@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import { createDog, getTemperaments } from '../actions';
 import Select from 'react-select';
+import './CreateDog.css';
 
 
 
@@ -17,7 +18,7 @@ export function validate(input) {
     }
 
     if (!input.minWeight) {
-        errors.minWeight = `Dog's minimum weight is required`
+        errors.minWeight = `Dog's minimum weight required`
         errors.hasErrors = true;
     } else if (!/^[0-9]*$/.test(input.minWeight)) {
         errors.minWeight = 'Weight must be a number'
@@ -25,7 +26,7 @@ export function validate(input) {
     }
 
     if (!input.maxWeight) {
-        errors.maxWeight = `Dog's maximum weight is required`
+        errors.maxWeight = `Dog's maximum weight required`
         errors.hasErrors = true;
     } else if (!/^[0-9]*$/.test(input.minWeight)) {
         errors.maxWeight = 'Weight must be a number'
@@ -33,7 +34,7 @@ export function validate(input) {
     }
 
     if (!input.minHeight) {
-        errors.minHeight = `Dog's minimum height is required`
+        errors.minHeight = `Dog's minimum height required`
         errors.hasErrors = true;
     } else if (!/^[0-9]*$/.test(input.minHeight)) {
         errors.minHeight = 'Height must be a number'
@@ -54,7 +55,7 @@ export function validate(input) {
     }
 
     if(parseInt(input.minHeight) > parseInt(input.maxHeight)){
-        errors.minHeight = `Dog's maximum weight must be equal or greater than minimum weight`
+        errors.minHeight = `Dog's maximum height must be equal or greater than minimum height`
         errors.hasErrors = true;
     }
 
@@ -124,34 +125,35 @@ export default function CreateDog() {
     }
 
     return (
-        <div>
-            <div>CREATE DOG</div>
+        <div className={'imageCreateDog'}>
+            <div className={'createBox'}>
+            <div className={'title'}>CREATE YOUR OWN DOG</div>
             <br />
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>NAME</label>
                     <input type={'text'} name={'name'} value={input.name} onChange={e => handleChange(e)} />
-                    {errors.name && (<p style={{ color: 'red' }}>{errors.name}</p>)}
+                    {errors.name && (<p className='errors'>{errors.name}</p>)}
                 </div>
                 <div>
                     <label>MIN HEIGHT</label>
                     <input type={'text'} name={'minHeight'} onKeyPress={onlyNumbers} value={input.minHeight} onChange={e => handleChange(e)} />
-                    {errors.minHeight && (<p style={{ color: 'red' }}>{errors.minHeight}</p>)}
+                    {errors.minHeight && (<p className='errors'>{errors.minHeight}</p>)}
                 </div>
                 <div>
                     <label>MAX HEIGHT</label>
                     <input type={'text'} name={'maxHeight'} onKeyPress={onlyNumbers} value={input.maxHeight} onChange={e => handleChange(e)} />
-                    {errors.maxHeight && (<p style={{ color: 'red' }}>{errors.maxHeight}</p>)}
+                    {errors.maxHeight && (<p className='errors'>{errors.maxHeight}</p>)}
                 </div>
                 <div>
                     <label>MIN WEIGHT</label>
                     <input type={'text'} name={'minWeight'} onKeyPress={onlyNumbers} value={input.minWeight} onChange={e => handleChange(e)} />
-                    {errors.minWeight && (<p style={{ color: 'red' }}>{errors.minWeight}</p>)}
+                    {errors.minWeight && (<p className='errors'>{errors.minWeight}</p>)}
                 </div>
                 <div>
                     <label>MAX WEIGHT</label>
                     <input type={'text'} name={'maxWeight'} onKeyPress={onlyNumbers} value={input.maxWeight} onChange={e => handleChange(e)} />
-                    {errors.maxWeight && (<p style={{ color: 'red' }}>{errors.maxWeight}</p>)}
+                    {errors.maxWeight && (<p className='errors'>{errors.maxWeight}</p>)}
                 </div>
                 <div>
                     <label>LIFE SPAN</label>
@@ -170,6 +172,7 @@ export default function CreateDog() {
                 <br />
                 <button type={'submit'} onSubmit={e => handleSubmit(e)}>SUMBIT DOG</button>
             </form>
+            </div>
         </div>
     )
 }

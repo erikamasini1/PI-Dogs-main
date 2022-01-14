@@ -5,6 +5,7 @@ import { getDogs, getTemperaments } from "../actions";
 import Dog from "./Dog";
 import SearchBar from './SearchBar';
 import Select from 'react-select';
+import './Home.css'
 
 
 
@@ -153,8 +154,8 @@ export default function Home() {
     }
 
     return (
-        <div>
-            <div>This is the Dog's API</div>
+        <div className={'backgroundPageImage'}>
+          
             <button onClick={e => handleReloadDogs(e)}> Reload all dogs</button>
             <SearchBar />
             <div>
@@ -185,6 +186,7 @@ export default function Home() {
                     })
                 }
             </div>
+            
         </div>
 
     )

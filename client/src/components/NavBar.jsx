@@ -1,17 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import './NavBar.css';
+
 
 export default function NavBar() {
     return (
-        <nav>
-            <ul>
-                <li>
-                    <NavLink to={'/home'}>Home</NavLink>
-                </li>
-                <li>
-                    <NavLink to={'/create'}>Create</NavLink>
-                </li>
-            </ul>
-        </nav>
+        <div className={'navbar'}>
+            
+                    <NavLink activeStyle={{backgroundColor: '#BFA2DB'}} className={'navOptions'} to={'/home'}>Home</NavLink>
+            
+                    <NavLink activeStyle={{backgroundColor: '#BFA2DB'}} className={'navOptions'}  to={'/create'}>Create</NavLink>
+                
+        </div>
     )
 }

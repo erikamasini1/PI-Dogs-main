@@ -1,0 +1,7 @@
+:root {
+    --sm : 575px;
+}
+
+@media screen and (min-width:  var(--sm)){
+
+}

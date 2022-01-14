@@ -65,13 +65,17 @@ export function getDogs(){
 
 export function getDogByName(name){
     return async function(dispatch){
+        try{
         var json = await axios(`http://localhost:3001/dogs?name=${name}`)
         var dog = json.data
         return dispatch({
             type: GET_DOG,
             payload: dog
         })
-    }
+      } catch(e){
+        console.log(e)
+      }
+    } 
 }
 
 

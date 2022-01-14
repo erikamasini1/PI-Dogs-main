@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  color: black;
+
 }
 
 .App-logo {
@@ -11,6 +13,15 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+:root{
+  --body-color: #F3F1F5;
+  --button-color: #F0D9FF;
+  --font-color:  #7F7C82;
+  --hover-color: #BFA2DB;
+  --font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+  --font-color-dark: #495057;
 }
 
 .App-header {

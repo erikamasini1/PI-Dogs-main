@@ -1,0 +1,38 @@
+.dogImg{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-top: 5px;
+    border-radius: 10px;
+    
+}
+
+
+
+
+.container{
+    font-family: var(--font-family);
+    vertical-align: top;
+    display: inline-block;
+    text-align: left;
+    border-radius: 3%;
+    
+}
+
+.title{
+    
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--hover-color);
+   
+
+
+}
+
+.atributes{
+    margin: 4px;
+    font-family: var(--font-family);
+    font-size: 16px;
+}
+

@@ -1,0 +1,26 @@
+.navOptions{
+    text-align: center;
+    padding: 20px;
+    height: 100%;
+    text-decoration: none;
+    -webkit-appearance: button;
+    font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+    font-weight: 700;
+
+}
+
+.navOptions:hover{
+    background-color: var(--hover-color);
+}
+
+.navbar {
+    flex-direction: column;
+    background-color: white;
+    text-align: right;
+    margin-bottom: 40px;
+
+}
+
+.activeStyle{
+    background-color: var(--hover-color);
+}

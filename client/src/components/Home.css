@@ -1,0 +1,9 @@
+
+
+.backgroundPageImage {
+
+    object-fit: cover;
+    width: 100%;
+    height: 150%;
+    max-height: 800px;
+}

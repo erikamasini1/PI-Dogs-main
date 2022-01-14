@@ -8,6 +8,7 @@ body {
   min-width:1000px;        /* Suppose you want minimum width of 1000px */
   width: auto !important;  /* Firefox will set width as auto */
   width:1000px;            /* As IE6 ignores !important it will set width as 1000px; */
+  background-color: #F3F1F5;
 }
 
 
@@ -18,7 +19,7 @@ code {
 }
 
 button {
-  background-color: #FFFF01;
+  background-color: #F0D9FF;
   border: 1px solid #fff;
   border-radius: 7px;
   color: black;
@@ -28,4 +29,18 @@ button {
   display: inline-block;
   font-size: 12px;
   cursor: pointer;
+}
+
+button:hover {
+  background-color: #BFA2DB;
+  /* //#7F7C82 */
+}
+
+input {
+  padding: 0.375rem 0.75rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
 }

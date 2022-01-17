@@ -34,6 +34,13 @@
     font-size: 18px;
     font-weight: 600;
     color: var(--hover-color);
-
 }
 
+.attributes{
+    margin-bottom: 3px;
+    margin-top: 5px;
+}
+
+.attributeTitle {
+    font-weight: 500;
+}

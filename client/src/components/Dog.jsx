@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import defaultDog from'../assets/dog.jpg';
+import defaultDog from'../assets/Defaultdog2.jpeg';
 import './Dog.css';
 
 
@@ -8,7 +8,7 @@ export default function Dog({ id, name, min_weight, max_weight, temperaments, im
 
     return (
         <div className={'container'}>
-            <div className={'dogTitle'}>
+            <div >
             <Link className={'dogTitle'} to={`/detail/${id}`}> 
             {name}
             </Link>
@@ -16,8 +16,8 @@ export default function Dog({ id, name, min_weight, max_weight, temperaments, im
             {image ? <img src={image} alt='img' className='dogImg' /> 
                 : <img src={defaultDog} alt='img'  className='dogImg' /> }
         
-            <div>Weight:  {min_weight} - {max_weight} kg</div>
-            <div>Temperaments:  <div>{temperaments && temperaments.map(temp => { return temp.name + ' ' })} </div>
+            <div className='attributes' ><span className={'attributeTitle'}>Weight:</span>  {min_weight} - {max_weight} kg</div>
+            <div><span className={'attributeTitle'}>Temperaments:</span><div>{temperaments && temperaments.map((temp, i) => { return temp.name + (i < (temperaments.length - 1) ?  ', ' : '') })} </div>
             </div>
         </div>
     )

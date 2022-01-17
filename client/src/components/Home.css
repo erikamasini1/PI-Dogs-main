@@ -7,3 +7,9 @@
     height: 150%;
     max-height: 800px;
 }
+
+.options{
+    display: inline-block; 
+    width: 200px;
+    margin-right: 10px;
+}

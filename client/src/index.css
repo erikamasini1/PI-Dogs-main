@@ -31,6 +31,15 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+button:disabled:hover{
+  background-color: #F0D9FF;
+}
+
 button:hover {
   background-color: #BFA2DB;
   /* //#7F7C82 */

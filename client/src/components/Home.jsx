@@ -14,23 +14,23 @@ export default function Home() {
     const getAllDogs = useSelector((state) => state.dogs)
     let [currentPage, setCurrentPage] = useState(1);
     const [maxPage, setMaxPage] = useState(10)
-    const [filteredByTemperaments, setFilteredByTemperaments] = useState({ id: 0, value: 'all', label: 'All Temperaments' });
+    const [filteredByTemperaments, setFilteredByTemperaments] = useState({ value: 'all', label: 'All Temperaments' });
 
-    let defaultTemperaments = { id: 0, value: 'all', label: 'All Temperaments' }
+    let defaultTemperaments = { value: 'all', label: 'All Temperaments' }
 
     const sourceFilters = [
-        { id: 1, name: "all", label: "All Sources", value: "all" },
-        { id: 2, name: "thedogapi", label: "Api dogs", value: "thedogapi" },
-        { id: 3, name: "database", label: "Database Dogs", value: "database" }
+        { name: "all", label: "All Sources", value: "all" },
+        { name: "thedogapi", label: "Api dogs", value: "thedogapi" },
+        { name: "database", label: "Database Dogs", value: "database" }
     ]
 
     const [filteredBySource, setFilteredBySource] = useState(sourceFilters[0]);
 
     const sortedOptions = [
-        { id: 1, name: 'ascendingAlfabetic', label: 'A - Z', value: 'ascendingAlfabetic' },
-        { id: 2, name: 'descendingAlfabetic', label: 'Z - A', value: 'descendingAlfabetic' },
-        { id: 3, name: 'ascendingWeight', label: 'Weight: Min to Max', value: 'ascendingWeight' },
-        { id: 4, name: 'descendingWeight', label: 'Weight: Max to Min', value: 'descendingWeight' }
+        {  name: 'ascendingAlfabetic', label: 'A - Z', value: 'ascendingAlfabetic' },
+        {  name: 'descendingAlfabetic', label: 'Z - A', value: 'descendingAlfabetic' },
+        {  name: 'ascendingWeight', label: 'Weight: Min to Max', value: 'ascendingWeight' },
+        {  name: 'descendingWeight', label: 'Weight: Max to Min', value: 'descendingWeight' }
     ]
 
     const [sortedDogs, setSortedDogs] = useState(sortedOptions[0]);
@@ -72,7 +72,11 @@ export default function Home() {
 
         let dogsToFilterByTemp = filteredByTemperaments.value === 'all' ? dogsToFilter : dogsToFilter.filter(dog => dog.temperaments.some(e => e.name === filteredByTemperaments.name))
 
-        setMaxPage(Math.ceil(dogsToFilterByTemp.length / 8));
+        let newMaxPage = Math.ceil(dogsToFilterByTemp.length / 8)
+        if (newMaxPage === 0 ){
+            newMaxPage = 1;
+        }
+        setMaxPage(newMaxPage);
 
         if (sortedDogs.value === 'ascendingAlfabetic') {
             dogsToFilterByTemp.sort(function (a, b) {
@@ -154,20 +158,20 @@ export default function Home() {
     }
 
     return (
-        <div className={'backgroundPageImage'}>
-          
+        <div className={'backgroundPageImage'} style={{marginTop: 10}}>
+            <div>
             <button onClick={e => handleReloadDogs(e)}> Reload all dogs</button>
             <SearchBar />
+            </div>
             <div>
                 <div style={{ display: 'inline-block', margin: 10 }}>
-                    <div style={{ display: 'inline-block', width: 200, marginRight: 10 }}>
+                    <div className={'options'}>
                         <Select options={sortedOptions} value={sortedDogs} onChange={e => handleSort(e)} />
                     </div>
-                    {/* <div>{defalultImg.url}</div> */}
-                    <div style={{ display: 'inline-block', width: 200, marginRight: 10 }}>
+                    <div className={'options'}>
                         <Select options={temperamentsList} value={filteredByTemperaments} onChange={e => handleFilteredTemperament(e)} />
                     </div>
-                    <div style={{ display: 'inline-block', width: 200 }}>
+                    <div className={'options'}>
                         <Select options={sourceFilters} value={filteredBySource} onChange={handleFilteredSource} />
                     </div>
                 </div>

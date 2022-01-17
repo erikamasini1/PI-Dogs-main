@@ -23,9 +23,24 @@
  
 }
 
-.errors{
+.inputContainer {
+    width: 500px;
+    text-align: left;
+    margin-top: 5px;
+}
+
+.inputText {
+    width: 150px;
+    display: inline-block;
+}
+
+.errors {
     color:red;
     font-size: 12px;
     font-style: italic;
 }
 
+.temperamentsSelect {
+    display: inline-block;
+    width: 170px;
+}

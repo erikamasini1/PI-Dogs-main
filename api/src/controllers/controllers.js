@@ -90,16 +90,12 @@ const showAllDogs = async (req, res) => {
       const filteredDogs = allDogs.filter((dog) =>
         dog.name.toLowerCase().includes(name.toLowerCase())
       );
-
-      if (filteredDogs.length > 0) {
+      if(filteredDogs.length > 0){
         res.json(filteredDogs);
       } else {
-        res
-          .status(404)
-          .send(
-            `${name.toUpperCase()} brand not found, please try another one!`
-          );
+        res.status(404).json('Dog not found')
       }
+
     } else {
       res.json(allDogs);
     }
@@ -116,7 +112,7 @@ const showDogsById = async (req, res) => {
     const { id } = req.params;
     if (id ) {
       console.log (id )
-      //await
+    
       const filteredDog = allDogs.find((dog) => dog.id.toString() === id.toString());
 
       if (filteredDog) {
@@ -159,40 +155,21 @@ const getTemperaments = async (req, res) => {
 
 const postDog = async (req, res) => {
   try {
-  
-  // let {name, max_height, max_weight, min_height, min_weight, life_span, temperament} = req.body;
+    if(req.body.name && req.body.max_height && req.body.max_weight && req.body.min_height && req.body.min_weight){
+      let newDog = await Dog.create(req.body);
 
-  // if(name && max_height && max_weight && min_height && min_weight){
-  //   let newDog = await Dog.create({
-  //     name,
-  //     min_weight,
-  //     max_weight,
-  //     min_height,
-  //     max_height,
-  //     life_span,
-  //     temperament
-  //   })
-
-  //   let temperamentDB = await Temperament.findAll({ where: { id: req.body.temperament } });
-  
-  //   newDog.addTemperament(temperamentDB);
-  //   res.send(newDog);
-  // } else {
-  //   res.status(400).send('Required fields missing')
-  // }
-
-  let newDog = await Dog.create(req.body);
-
-  let temperamentDB = await Temperament.findAll({ where: { id: req.body.temperament } });
-
-  newDog.addTemperament(temperamentDB);
-  res.send(newDog);
-} catch(e){
-  console.error('Dog not created ', e);
-  res.status(500).send('Dog not created')
-}
+      let temperamentDB = await Temperament.findAll({ where: { id: req.body.temperament } });
+    
+      newDog.addTemperament(temperamentDB);
+      res.send(newDog);
+    } else {
+      res.status(400).send('Required fields missing')
+    }
+  } catch(e){
+    console.error('Dog not created ', e);
+    res.status(500).send('Dog not created')
+  }
 };
 
-//const project = await Project.findOne({ where: { title: 'My Title' } });
 
 module.exports = { showAllDogs, showDogsById, getTemperaments, postDog };

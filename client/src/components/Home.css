@@ -13,3 +13,11 @@
     width: 200px;
     margin-right: 10px;
 }
+
+.searchBar{
+    display: inline-block;
+}
+
+.removeButton{
+    display: inline-block;
+}

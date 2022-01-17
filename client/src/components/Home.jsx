@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDogs, getTemperaments } from "../actions";
+import { getDogs, getTemperaments, cleanDogDetail } from "../actions";
 import Dog from "./Dog";
 import SearchBar from './SearchBar';
 import Select from 'react-select';
@@ -39,7 +39,10 @@ export default function Home() {
 
     const temperamentsList = useSelector(state => state.temperaments)
 
+
+
     useEffect(() => {
+        dispatch(cleanDogDetail())
         dispatch(getTemperaments());
         dispatch(getDogs());
     }, [])
@@ -120,7 +123,7 @@ export default function Home() {
     function resetFilters() {
         setCurrentPage(1)
         setFilteredBySource(sourceFilters[0])
-        setFilteredByTemperaments({ id: 0, value: 'all', label: 'All Temperaments' })
+        setFilteredByTemperaments({ value: 'all', label: 'All Temperaments' })
         setSortedDogs(sortedOptions[0])
     }
 
@@ -160,8 +163,10 @@ export default function Home() {
     return (
         <div className={'backgroundPageImage'} style={{marginTop: 10}}>
             <div>
-            <button onClick={e => handleReloadDogs(e)}> Reload all dogs</button>
-            <SearchBar />
+           
+           <span className={'searchBar'}> <SearchBar /> </span>
+           <span className={'removeButton'}> {(filteredBySource.value !=='all' || filteredByTemperaments.value!=='all') &&
+                    <button onClick={e => handleReloadDogs(e)}> Remove filters</button> } </span>
             </div>
             <div>
                 <div style={{ display: 'inline-block', margin: 10 }}>
@@ -179,13 +184,16 @@ export default function Home() {
                     {currentPage > 1 && <button onClick={e => handlePreviousPage(e)}> Previous </button>}
                     <span >  | {currentPage}  of {maxPage}| </span>
                     {currentPage < maxPage && <button onClick={e => handleNextPage(e)}>  Next</button>}
+                    
                 </div>
              
                 {
                     dogsPerPage && dogsPerPage.map(dog => {
                         return (
-
+                            <span>
                             <Dog key={dog.id} id={dog.id} name={dog.name} min_weight={dog.min_weight} max_weight={dog.max_weight} temperaments={dog.temperaments} image={dog.image} />
+                           
+                            </span>
                         )
                     })
                 }

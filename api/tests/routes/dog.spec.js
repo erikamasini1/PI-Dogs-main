@@ -48,9 +48,5 @@ describe('Get dog route', () => {
   it('should get 200', () =>
     agent.get(`/dogs?name=${dog.name}`).expect(200))
   });
-  describe('GET /dogs by name invalid', () => {
-    it('should get 200', () =>
-      agent.get(`/dogs?name=fakedog`).expect(404))
-    });
 });
 

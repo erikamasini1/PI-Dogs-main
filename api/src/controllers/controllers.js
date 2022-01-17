@@ -90,12 +90,7 @@ const showAllDogs = async (req, res) => {
       const filteredDogs = allDogs.filter((dog) =>
         dog.name.toLowerCase().includes(name.toLowerCase())
       );
-      if(filteredDogs.length > 0){
-        res.json(filteredDogs);
-      } else {
-        res.status(404).json('Dog not found')
-      }
-
+      res.json(filteredDogs);
     } else {
       res.json(allDogs);
     }
@@ -113,10 +108,10 @@ const showDogsById = async (req, res) => {
     if (id ) {
       console.log (id )
     
-      const filteredDog = allDogs.find((dog) => dog.id.toString() === id.toString());
+      const filteredDogs = allDogs.find((dog) => dog.id.toString() === id.toString());
 
-      if (filteredDog) {
-        res.json(filteredDog);
+      if (filteredDogs) {
+        res.json(filteredDogs);
       } else {
         res
           .status(404)

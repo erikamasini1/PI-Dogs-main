@@ -1,8 +1,8 @@
-import "./App.css";
+  import "./App.css";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import CreateDog from "./components/CreateDog";
 import Detail from "./components/Detail";
 import Home from "./components/Home";
@@ -14,13 +14,15 @@ function App() {
   return (
     
     <div className="App">
-      {location.pathname === "/" ? null : <NavBar />}
-      {/* <Route path={'/'} component={NavBar}/> */}
+      {/* {location.pathname === "/" ? null : <NavBar />} */}
+      <NavBar/>
+      <Switch>
       <Route exact path={"/"} render={() => <LandingPage />} />
       <Route path={"/home"} render={() => <Home />} />
       <Route path={"/create"} render={() => <CreateDog />} />
       <Route exact path={"/detail/:id"} render={() => <Detail />} />
       <Route path={"/dogs"} component={Dogs} />
+      </Switch>
     </div>
   );
 }

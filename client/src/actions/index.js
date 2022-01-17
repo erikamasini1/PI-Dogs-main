@@ -1,4 +1,4 @@
-import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS, GET_DOG, GET_DOG_BY_ID } from "./types"
+import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS, GET_DOG, GET_DOG_BY_ID, CLEAN_DETAIL, DELETE_DOG } from "./types"
 import axios from 'axios'
 
 export function createDog(dog){
@@ -63,29 +63,61 @@ export function getDogs(){
     }
 }
 
+// export function getDogByName(name){
+//     return async function(dispatch){
+//         try{
+//         var json = await axios(`http://localhost:3001/dogs?name=${name}`)
+//         var dog = json.data
+//         return dispatch({
+//             type: GET_DOG,
+//             payload: dog
+//         })
+//       } catch(e){
+//         console.log(e)
+//       }
+//     } 
+// }
+
 export function getDogByName(name){
-    return async function(dispatch){
-        try{
-        var json = await axios(`http://localhost:3001/dogs?name=${name}`)
-        var dog = json.data
-        return dispatch({
-            type: GET_DOG,
-            payload: dog
-        })
-      } catch(e){
-        console.log(e)
-      }
-    } 
+    return function(dispatch){
+        return fetch(`http://localhost:3001/dogs?name=${name}`)
+        .then (response => response.json())
+        .then (post => dispatch({type: GET_DOG, payload: post}))
+    }
 }
 
 
+
+
+// export function getDogById(id){
+//     return async function(dispatch){
+//         var json = await axios(`http://localhost:3001/dogs/${id}`)
+//         var dog = json.data
+//         return dispatch({
+//             type: GET_DOG_BY_ID,
+//             payload: dog
+//         })
+//     }
+// }
+
 export function getDogById(id){
-    return async function(dispatch){
-        var json = await axios(`http://localhost:3001/dogs/${id}`)
-        var dog = json.data
-        return dispatch({
-            type: GET_DOG_BY_ID,
-            payload: dog
-        })
+    return function(dispatch){
+        return axios(`http://localhost:3001/dogs/${id}`)
+        .then(response => response.data)
+        .then(post => dispatch({type: GET_DOG_BY_ID, payload: post}))      
     }
+}
+
+export function cleanDogDetail(){
+    return function(dispatch){
+    var detail = {}
+    return dispatch({
+        type: CLEAN_DETAIL,
+        payload: detail
+    })
+  }
+}
+
+export function deleteDog(id){
+    return {type: DELETE_DOG, id}
 }

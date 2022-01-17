@@ -1,4 +1,4 @@
-import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS, GET_DOG, GET_DOG_BY_ID} from "../actions/types"
+import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS, GET_DOG, GET_DOG_BY_ID, CLEAN_DETAIL} from "../actions/types"
 
 
 
@@ -31,6 +31,11 @@ export default function rootReducer(state=initialState, action){
                 dogs: action.payload
             }
         case GET_DOG_BY_ID:
+            return{
+                ...state,
+                detail: action.payload
+            }
+        case CLEAN_DETAIL:
             return{
                 ...state,
                 detail: action.payload

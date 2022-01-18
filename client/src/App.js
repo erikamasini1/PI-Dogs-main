@@ -6,7 +6,7 @@ import { Route, Switch } from "react-router-dom";
 import CreateDog from "./components/CreateDog";
 import Detail from "./components/Detail";
 import Home from "./components/Home";
-import { Dogs } from "./components/Dogs";
+import Dogs  from "./components/Dogs";
 import LandingPage from "./components/LandingPage";
 
 function App() {

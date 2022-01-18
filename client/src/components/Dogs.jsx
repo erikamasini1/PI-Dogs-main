@@ -1,8 +1,12 @@
 import React from 'react';
-import {connect, useDispatch} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
+
 import Dog from './Dog'
 
-export function Dogs({dogs}){
+
+export default function Dogs(){
+
+    const dogs = useSelector(state => state.dogs)
 
 
     return(
@@ -17,10 +21,10 @@ export function Dogs({dogs}){
     )
 }
 
-function mapStateToProps(state){
-    return{
-        dogs: state.dogs
-    }
-}
+// function mapStateToProps(state){
+//     return{
+//         dogs: state.dogs
+//     }
+//}
 
-export default connect(mapStateToProps, null)(Dogs)
+//export default connect(mapStateToProps, null)(Dogs)

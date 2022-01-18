@@ -1,45 +1,37 @@
-.dogImg{
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    margin-top: 5px;
-    border-radius: 10px;
+.dogImg {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  margin-top: 5px;
+  border-radius: 10px;
 }
 
-
-
-
-.containerDetail{
-    font-family: var(--font-family);
-    vertical-align: top;
-    display: inline-block;
-    text-align: left;
-    border-radius: 3%;
-    margin-top: 3%;
-    padding: 5%;
-    width: 200px;
-    
+.containerDetail {
+  font-family: var(--font-family);
+  vertical-align: top;
+  display: inline-block;
+  text-align: left;
+  border-radius: 3%;
+  margin-top: 3%;
+  padding: 5%;
+  width: 200px;
 }
 
-.title{
-    
-    text-decoration: none;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--hover-color);
-    text-align: center;
-
+.title {
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--hover-color);
+  text-align: center;
 }
 
-.atributes{
-    margin: 4px;
-    font-family: var(--font-family);
-    font-size: 16px;
-    color: var(--font-color);
+.atributes {
+  margin: 4px;
+  font-family: var(--font-family);
+  font-size: 16px;
+  color: var(--font-color);
 }
 
 .attributeDetailTitle {
-    font-weight: 500;
-   
-    
+  font-weight: 500;
 }

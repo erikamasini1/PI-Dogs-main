@@ -29,6 +29,7 @@ button {
   display: inline-block;
   font-size: 12px;
   cursor: pointer;
+  width: 100px;
 }
 
 button:disabled {
@@ -52,4 +53,12 @@ input {
   background-color: #fff;
   border: 1px solid #ced4da;
   border-radius: 5px;
+}
+
+.marginLeftSmall {
+  margin-left: 10px;
+}
+
+.marginRightSmall {
+  margin-right: 10px;
 }

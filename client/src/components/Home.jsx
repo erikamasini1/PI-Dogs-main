@@ -6,12 +6,12 @@ import Dog from "./Dog";
 import SearchBar from './SearchBar';
 import Select from 'react-select';
 import './Home.css'
-
-
+import Loading from "./Loading";
 
 export default function Home() {
     const dispatch = useDispatch()
     const getAllDogs = useSelector((state) => state.dogs)
+
     let [currentPage, setCurrentPage] = useState(1);
     const [maxPage, setMaxPage] = useState(10)
     const [filteredByTemperaments, setFilteredByTemperaments] = useState({ value: 'all', label: 'All Temperaments' });
@@ -27,10 +27,10 @@ export default function Home() {
     const [filteredBySource, setFilteredBySource] = useState(sourceFilters[0]);
 
     const sortedOptions = [
-        {  name: 'ascendingAlfabetic', label: 'A - Z', value: 'ascendingAlfabetic' },
-        {  name: 'descendingAlfabetic', label: 'Z - A', value: 'descendingAlfabetic' },
-        {  name: 'ascendingWeight', label: 'Weight: Min to Max', value: 'ascendingWeight' },
-        {  name: 'descendingWeight', label: 'Weight: Max to Min', value: 'descendingWeight' }
+        { name: 'ascendingAlfabetic', label: 'A - Z', value: 'ascendingAlfabetic' },
+        { name: 'descendingAlfabetic', label: 'Z - A', value: 'descendingAlfabetic' },
+        { name: 'ascendingWeight', label: 'Weight: Min to Max', value: 'ascendingWeight' },
+        { name: 'descendingWeight', label: 'Weight: Max to Min', value: 'descendingWeight' }
     ]
 
     const [sortedDogs, setSortedDogs] = useState(sortedOptions[0]);
@@ -38,8 +38,6 @@ export default function Home() {
     let [dogsPerPage, setDogsPerPage] = useState(getAllDogs.slice(0, 8))
 
     const temperamentsList = useSelector(state => state.temperaments)
-
-
 
     useEffect(() => {
         dispatch(cleanDogDetail())
@@ -76,7 +74,7 @@ export default function Home() {
         let dogsToFilterByTemp = filteredByTemperaments.value === 'all' ? dogsToFilter : dogsToFilter.filter(dog => dog.temperaments.some(e => e.name === filteredByTemperaments.name))
 
         let newMaxPage = Math.ceil(dogsToFilterByTemp.length / 8)
-        if (newMaxPage === 0 ){
+        if (newMaxPage === 0) {
             newMaxPage = 1;
         }
         setMaxPage(newMaxPage);
@@ -161,12 +159,12 @@ export default function Home() {
     }
 
     return (
-        <div className={'backgroundPageImage'} style={{marginTop: 10}}>
+        <div className={'homeMainContainer'}>
             <div>
-           
-           <span className={'searchBar'}> <SearchBar /> </span>
-           <span className={'removeButton'}> {(filteredBySource.value !=='all' || filteredByTemperaments.value!=='all') &&
-                    <button onClick={e => handleReloadDogs(e)}> Remove filters</button> } </span>
+                <Loading />
+                <span className={'searchBar'}> <SearchBar /> </span>
+                <span className={'removeButton marginLeftSmall'}> {(filteredBySource.value !== 'all' || filteredByTemperaments.value !== 'all') &&
+                    <button onClick={e => handleReloadDogs(e)}> Remove filters</button>} </span>
             </div>
             <div>
                 <div style={{ display: 'inline-block', margin: 10 }}>
@@ -184,21 +182,21 @@ export default function Home() {
                     {currentPage > 1 && <button onClick={e => handlePreviousPage(e)}> Previous </button>}
                     <span >  | {currentPage}  of {maxPage}| </span>
                     {currentPage < maxPage && <button onClick={e => handleNextPage(e)}>  Next</button>}
-                    
+
                 </div>
-             
+
                 {
                     dogsPerPage && dogsPerPage.map(dog => {
                         return (
                             <span>
-                            <Dog key={dog.id} id={dog.id} name={dog.name} min_weight={dog.min_weight} max_weight={dog.max_weight} temperaments={dog.temperaments} image={dog.image} />
-                           
+                                <Dog key={dog.id} id={dog.id} name={dog.name} min_weight={dog.min_weight} max_weight={dog.max_weight} temperaments={dog.temperaments} image={dog.image} />
+
                             </span>
                         )
                     })
                 }
             </div>
-            
+
         </div>
 
     )

@@ -1,9 +1,8 @@
-import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS, GET_DOG, GET_DOG_BY_ID, CLEAN_DETAIL, DELETE_DOG } from "./types"
+import { CREATE_DOG, GET_DOGS, GET_TEMPERAMENTS, GET_DOG, GET_DOG_BY_ID, CLEAN_DETAIL, LOADING } from "./types"
 import axios from 'axios'
 
 export function createDog(dog){
 
-    
     let dogToBack = ({name, minHeight, maxHeight, minWeight, maxWeight, life_span, image, temperaments}) => {
         return {
             name,
@@ -20,6 +19,9 @@ export function createDog(dog){
     let dogFormated = dogToBack(dog)
 
     return async function(dispatch){
+        dispatch({
+            type: LOADING
+        })
         var json = await axios.post('http://localhost:3001/dog', dogFormated)
         var dog = json.data
          return dispatch( {
@@ -32,6 +34,9 @@ export function createDog(dog){
 
 export function getTemperaments(){
     return async function(dispatch){
+        dispatch({
+            type: LOADING
+        })
         var json = await axios('http://localhost:3001/temperament')
         var temperaments = json.data.map(function(temperament){
             return {
@@ -54,6 +59,9 @@ export function getTemperaments(){
 
 export function getDogs(){
     return async function(dispatch){
+        dispatch({
+            type: LOADING
+        })
         var json = await axios('http://localhost:3001/dogs')
         var dogs = json.data
         return dispatch({
@@ -65,6 +73,9 @@ export function getDogs(){
 
 // export function getDogByName(name){
 //     return async function(dispatch){
+    // dispatch({
+    //     type: LOADING
+    // })
 //         try{
 //         var json = await axios(`http://localhost:3001/dogs?name=${name}`)
 //         var dog = json.data
@@ -80,6 +91,9 @@ export function getDogs(){
 
 export function getDogByName(name){
     return function(dispatch){
+        dispatch({
+            type: LOADING
+        })
         return fetch(`http://localhost:3001/dogs?name=${name}`)
         .then (response => response.json())
         .then (post => dispatch({type: GET_DOG, payload: post}))
@@ -91,6 +105,9 @@ export function getDogByName(name){
 
 // export function getDogById(id){
 //     return async function(dispatch){
+    // dispatch({
+    //     type: LOADING
+    // })
 //         var json = await axios(`http://localhost:3001/dogs/${id}`)
 //         var dog = json.data
 //         return dispatch({
@@ -102,6 +119,9 @@ export function getDogByName(name){
 
 export function getDogById(id){
     return function(dispatch){
+        dispatch({
+            type: LOADING
+        })
         return axios(`http://localhost:3001/dogs/${id}`)
         .then(response => response.data)
         .then(post => dispatch({type: GET_DOG_BY_ID, payload: post}))      
@@ -110,6 +130,9 @@ export function getDogById(id){
 
 export function cleanDogDetail(){
     return function(dispatch){
+        dispatch({
+            type: LOADING
+        })
     var detail = {}
     return dispatch({
         type: CLEAN_DETAIL,
@@ -118,6 +141,6 @@ export function cleanDogDetail(){
   }
 }
 
-export function deleteDog(id){
-    return {type: DELETE_DOG, id}
-}
+// export function deleteDog(id){
+//     return {type: DELETE_DOG, id}
+// }

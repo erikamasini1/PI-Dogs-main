@@ -14,15 +14,14 @@ function App() {
   return (
     
     <div className="App">
-      {/* {location.pathname === "/" ? null : <NavBar />} */}
-      <NavBar/>
-      <Switch>
+      {location.pathname === "/" ? null : <NavBar />}
+  
       <Route exact path={"/"} render={() => <LandingPage />} />
       <Route path={"/home"} render={() => <Home />} />
       <Route path={"/create"} render={() => <CreateDog />} />
       <Route exact path={"/detail/:id"} render={() => <Detail />} />
       <Route path={"/dogs"} component={Dogs} />
-      </Switch>
+      
     </div>
   );
 }

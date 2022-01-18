@@ -1,13 +1,3 @@
-
-
-.backgroundPageImage {
-
-    object-fit: cover;
-    width: 100%;
-    height: 150%;
-    max-height: 800px;
-}
-
 .options{
     display: inline-block; 
     width: 200px;
@@ -20,4 +10,9 @@
 
 .removeButton{
     display: inline-block;
+}
+
+.homeMainContainer {
+    margin-top: 20px;
+    margin-bottom: 50px;
 }

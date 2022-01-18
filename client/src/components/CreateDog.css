@@ -1,46 +1,47 @@
 .handleError {
-    font-size: small;
-    color: red;
-    font-style: italic;
+  font-size: small;
+  color: red;
+  font-style: italic;
 }
 
 .imageCreateDog {
-   
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
 }
 
-.title{
-    font-family: var(--font-family);
-    font-size: 20;
-    
+.title {
+  font-family: var(--font-family);
+  font-size: 20;
 }
 
-.createBox{
- align-self: center;
- padding-left: 40%;
- font-size: 15px;
- 
+.createBox {
+  align-self: center;
+  padding-left: 40%;
+  font-size: 15px;
 }
 
 .inputContainer {
-    width: 500px;
-    text-align: left;
-    margin-top: 5px;
+  width: 500px;
+  text-align: left;
+  margin-top: 5px;
 }
 
 .inputText {
-    width: 150px;
-    display: inline-block;
+  width: 150px;
+  display: inline-block;
+}
+
+.inputBox {
+  width: 250px;
 }
 
 .errors {
-    color:red;
-    font-size: 12px;
-    font-style: italic;
+  color: red;
+  font-size: 12px;
+  font-style: italic;
 }
 
 .temperamentsSelect {
-    display: inline-block;
-    width: 170px;
+  display: inline-block;
+  width: 275px;
 }

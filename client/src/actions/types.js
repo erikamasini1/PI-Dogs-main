@@ -7,4 +7,5 @@ export const GET_DOG = 'GET_DOG';
 export const GET_DOG_BY_ID = 'GET_DOG_BY_ID';
 export const CLEAN_DETAIL = 'CLEAN_DETAIL';
 export const DELETE_DOG = 'DELETE_DOG';
+export const LOADING = 'LOADING'
 

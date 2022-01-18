@@ -1,8 +1,3 @@
-.handleError {
-  font-size: small;
-  color: red;
-  font-style: italic;
-}
 
 .imageCreateDog {
   display: flex;
@@ -12,6 +7,7 @@
 .title {
   font-family: var(--font-family);
   font-size: 20;
+  margin-bottom: 20px;
 }
 
 .createBox {

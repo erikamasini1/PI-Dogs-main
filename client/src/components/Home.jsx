@@ -13,7 +13,7 @@ export default function Home() {
     const getAllDogs = useSelector((state) => state.dogs)
 
     let [currentPage, setCurrentPage] = useState(1);
-    const [maxPage, setMaxPage] = useState(10)
+    const [maxPage, setMaxPage] = useState()
     const [filteredByTemperaments, setFilteredByTemperaments] = useState({ value: 'all', label: 'All Temperaments' });
 
     let defaultTemperaments = { value: 'all', label: 'All Temperaments' }

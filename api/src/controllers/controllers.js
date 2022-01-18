@@ -48,11 +48,10 @@ const getApiDogs = async () => {
       image: dog.image.url,
     };
   });
-
-
   return allApiDogs;
 }catch(e){
   console.log(e)
+  res.status(500).send('No dogs found, please try again')
 }
 };
 
@@ -71,20 +70,15 @@ const getDBDogs = async () => {
 const getAllDogs = async () => {
   const allDogs = Promise.all([getApiDogs(), getDBDogs()]).then((value) => {
     return [].concat(...value);
-    
   });
-  //   const apiDogs = await getApiDogs();
-  //   const dBDogs = await getDBDogs();
-  //   const allDogs = apiDogs.concat(dBDogs);
-
   return allDogs;
 };
+
 
 const showAllDogs = async (req, res) => {
   try {
     const allDogs = await getAllDogs();
-
-    const { name } = req.query;
+    const {name} = req.query;
 
     if (name) {
       const filteredDogs = allDogs.filter((dog) =>
@@ -106,8 +100,6 @@ const showDogsById = async (req, res) => {
     const allDogs = await getAllDogs();
     const { id } = req.params;
     if (id ) {
-      console.log (id )
-    
       const filteredDogs = allDogs.find((dog) => dog.id.toString() === id.toString());
 
       if (filteredDogs) {
@@ -115,18 +107,19 @@ const showDogsById = async (req, res) => {
       } else {
         res
           .status(404)
-          .send(`${id.toUpperCase()} id not found, please try another one!`);
+          .send(`${id} id not found, please try another one!`);
       }
     }
   } catch (e) {
     console.log(e);
+    res.status(500).send('No dogs found, please try again')
   }
 };
+
 
 const getTemperaments = async (req, res) => {
   const apiDogs = await getApiDogs();
 
-   
   let array = [];
   for (var i = 0; i < apiDogs.length; i++) {
     if (apiDogs[i].temperaments) {
@@ -145,7 +138,6 @@ const getTemperaments = async (req, res) => {
   const allTemperaments = await Temperament.findAll();
   res.send(allTemperaments);
 
-  //const temperaments =
 };
 
 const postDog = async (req, res) => {

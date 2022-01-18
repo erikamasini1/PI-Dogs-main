@@ -77,8 +77,7 @@ export default function CreateDog() {
     let [errors, setErrors] = React.useState({ hasErrors: true });
 
     let handleChange = e => {
-        // const value = e.target.value.replace(/\+|-/ig, '');
-
+        
         e.preventDefault();
         setInput(prev => ({ ...prev, [e.target.name]: e.target.value }))
         setErrors(validate({ ...input, [e.target.name]: e.target.value }))
@@ -100,7 +99,6 @@ export default function CreateDog() {
         e.preventDefault()
         if (!validate(input).hasErrors) {
             dispatch(createDog(input))
-            console.log(e)
             setInput({
                 name: '',
                 minHeight: '',
@@ -128,7 +126,7 @@ export default function CreateDog() {
             <Loading />
             <div className={'createBox'}>
                 <div className={'title'}>CREATE YOUR OWN DOG</div>
-                <br />
+               
                 <form onSubmit={handleSubmit}>
                     <div className='inputContainer'>
                         <label className='inputText'>NAME</label>

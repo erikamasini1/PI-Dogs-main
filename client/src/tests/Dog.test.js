@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Dog from './Dog';
+import Dog from '../components/Dog';
 import { MemoryRouter } from 'react-router-dom';
 
 test('Should render dog component', () => {

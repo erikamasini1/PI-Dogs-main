@@ -140,7 +140,3 @@ export function cleanDogDetail(){
     })
   }
 }
-
-// export function deleteDog(id){
-//     return {type: DELETE_DOG, id}
-// }

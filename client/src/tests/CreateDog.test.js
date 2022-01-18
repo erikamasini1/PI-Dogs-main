@@ -6,7 +6,7 @@ import { MemoryRouter } from "react-router-dom";
 import thunk from "redux-thunk";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 
-import CreateDog from "./CreateDog";
+import CreateDog from "../components/CreateDog";
 import * as actions from "../actions";
 
 configure({ adapter: new Adapter() });
@@ -29,7 +29,7 @@ describe("<CreateDog />", () => {
     beforeEach(() => {
       createDog = mount(
         <Provider store={store}>
-          <MemoryRouter initialEntries={["/characters/create"]}>
+          <MemoryRouter initialEntries={["/create"]}>
             <CreateDog />
           </MemoryRouter>
         </Provider>
@@ -96,7 +96,7 @@ describe("<CreateDog />", () => {
       expect(createDog.find('input[name="image"]')).toHaveLength(1);
     });
 
-    it("should render a button for submit", () => {
+    it("should render a button Create for submit", () => {
       expect(createDog.find('button[type="submit"]')).toHaveLength(1);
       expect(createDog.find("button").at(0).text()).toEqual("Create");
     });

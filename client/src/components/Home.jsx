@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDogs, getTemperaments, cleanDogDetail } from "../actions";
 import Dog from "./Dog";
 import SearchBar from './SearchBar';
-import Select from 'react-select';
 import './Home.css'
 import Loading from "./Loading";
 
@@ -14,42 +13,41 @@ export default function Home() {
 
     let [currentPage, setCurrentPage] = useState(1);
     const [maxPage, setMaxPage] = useState()
-    const [filteredByTemperaments, setFilteredByTemperaments] = useState({ value: 'all', label: 'All Temperaments' });
-
-    let defaultTemperaments = { value: 'all', label: 'All Temperaments' }
+    let defaultTemperaments = 'all';
+    const [filteredByTemperaments, setFilteredByTemperaments] = useState(defaultTemperaments);
 
     const sourceFilters = [
-        { name: "all", label: "All Sources", value: "all" },
-        { name: "thedogapi", label: "Api dogs", value: "thedogapi" },
-        { name: "database", label: "Database Dogs", value: "database" }
+        { label: "All Sources", value: "all" },
+        { label: "Api dogs", value: "thedogapi" },
+        { label: "Database Dogs", value: "database" }
     ]
 
-    const [filteredBySource, setFilteredBySource] = useState(sourceFilters[0]);
+    const [filteredBySource, setFilteredBySource] = useState(sourceFilters[0].value);
 
     const sortedOptions = [
-        { name: 'ascendingAlfabetic', label: 'A - Z', value: 'ascendingAlfabetic' },
-        { name: 'descendingAlfabetic', label: 'Z - A', value: 'descendingAlfabetic' },
-        { name: 'ascendingWeight', label: 'Weight: Min to Max', value: 'ascendingWeight' },
-        { name: 'descendingWeight', label: 'Weight: Max to Min', value: 'descendingWeight' }
+        { label: 'A - Z', value: 'ascendingAlfabetic' },
+        { label: 'Z - A', value: 'descendingAlfabetic' },
+        { label: 'Weight: Min to Max', value: 'ascendingWeight' },
+        { label: 'Weight: Max to Min', value: 'descendingWeight' },
+        { label: 'Height: Min to Max', value: 'ascendingHeight' },
+        { label: 'Height: Max to Min', value: 'descendingHeight' }
     ]
 
-    const [sortedDogs, setSortedDogs] = useState(sortedOptions[0]);
+    const [sortedDogs, setSortedDogs] = useState(sortedOptions[0].value);
 
     let [dogsPerPage, setDogsPerPage] = useState(getAllDogs.slice(0, 8))
 
-    const temperamentsList = useSelector(state => state.temperaments)
+    const temperamentsList = useSelector(state => state.temperaments);
+
+    const temperamentSelectId = "temperamentSelect";
+    const sortBySelectId = "sortBySelect";
+    const sourceSelectId = "sourceSelect";
 
     useEffect(() => {
         dispatch(cleanDogDetail())
         dispatch(getTemperaments());
         dispatch(getDogs());
     }, [])
-
-    useEffect(() => {
-        if (temperamentsList && temperamentsList.length > 0) {
-            temperamentsList.unshift(defaultTemperaments)
-        }
-    }, [temperamentsList])
 
     useEffect(() => {
         if (getAllDogs) {
@@ -69,9 +67,9 @@ export default function Home() {
 
     function displaySelectedDogs() {
 
-        let dogsToFilter = filteredBySource.value === 'all' ? getAllDogs : getAllDogs.filter(dog => (dog.source === filteredBySource.value))
+        let dogsToFilter = filteredBySource === 'all' ? getAllDogs : getAllDogs.filter(dog => (dog.source === filteredBySource))
 
-        let dogsToFilterByTemp = filteredByTemperaments.value === 'all' ? dogsToFilter : dogsToFilter.filter(dog => dog.temperaments.some(e => e.name === filteredByTemperaments.name))
+        let dogsToFilterByTemp = filteredByTemperaments === defaultTemperaments ? dogsToFilter : dogsToFilter.filter(dog => dog.temperaments.some(e => e.name === filteredByTemperaments))
 
         let newMaxPage = Math.ceil(dogsToFilterByTemp.length / 8)
         if (newMaxPage === 0) {
@@ -79,7 +77,7 @@ export default function Home() {
         }
         setMaxPage(newMaxPage);
 
-        if (sortedDogs.value === 'ascendingAlfabetic') {
+        if (sortedDogs === 'ascendingAlfabetic') {
             dogsToFilterByTemp.sort(function (a, b) {
                 if (a.name.toLowerCase() > b.name.toLowerCase()) {
                     return 1;
@@ -89,7 +87,7 @@ export default function Home() {
                 }
                 return 0;
             });
-        } else if (sortedDogs.value === 'descendingAlfabetic') {
+        } else if (sortedDogs === 'descendingAlfabetic') {
 
             dogsToFilterByTemp.sort(function (a, b) {
                 if (a.name.toLowerCase() > b.name.toLowerCase()) {
@@ -102,13 +100,21 @@ export default function Home() {
             });
         } else {
 
-            if (sortedDogs.value === 'ascendingWeight') {
+            if (sortedDogs === 'ascendingWeight') {
                 dogsToFilterByTemp = dogsToFilterByTemp.sort(function (a, b) {
                     return a.weightAverage - b.weightAverage;
                 });
-            } else if (sortedDogs.value === 'descendingWeight') {
+            } else if (sortedDogs === 'descendingWeight') {
                 dogsToFilterByTemp.sort(function (a, b) {
                     return b.weightAverage - a.weightAverage;
+                });
+            } else if (sortedDogs === 'ascendingHeight') {
+                dogsToFilterByTemp = dogsToFilterByTemp.sort(function (a, b) {
+                    return a.min_height - b.min_height;
+                });
+            } else if (sortedDogs === 'descendingHeight') {
+                dogsToFilterByTemp.sort(function (a, b) {
+                    return b.min_height - a.min_height;
                 });
             }
         }
@@ -119,10 +125,15 @@ export default function Home() {
     }
 
     function resetFilters() {
-        setCurrentPage(1)
-        setFilteredBySource(sourceFilters[0])
-        setFilteredByTemperaments({ value: 'all', label: 'All Temperaments' })
-        setSortedDogs(sortedOptions[0])
+        setCurrentPage(1);
+        setFilteredBySource(sourceFilters[0].value);
+        setFilteredByTemperaments(defaultTemperaments);
+        setSortedDogs(sortedOptions[0].value);
+
+
+        document.getElementById(temperamentSelectId).value = defaultTemperaments;
+        document.getElementById(sourceSelectId).value = sourceFilters[0].value;
+        document.getElementById(sortBySelectId).value = sortedOptions[0].value;
     }
 
     function handleReloadDogs(e) {
@@ -144,18 +155,18 @@ export default function Home() {
 
     function handleSort(e) {
         setCurrentPage(1)
-        setSortedDogs(e)
+        setSortedDogs(e.target.value)
 
     }
 
     function handleFilteredTemperament(e) {
         setCurrentPage(1)
-        setFilteredByTemperaments(e)
+        setFilteredByTemperaments(e.target.value)
     }
 
     function handleFilteredSource(e) {
         setCurrentPage(1);
-        setFilteredBySource(e);
+        setFilteredBySource(e.target.value);
     }
 
     return (
@@ -163,19 +174,39 @@ export default function Home() {
             <div>
                 <Loading />
                 <span className={'searchBar'}> <SearchBar /> </span>
-                <span className={'removeButton marginLeftSmall'}> {(filteredBySource.value !== 'all' || filteredByTemperaments.value !== 'all') &&
+                <span className={'removeButton marginLeftSmall'}> {(filteredBySource !== 'all' || filteredByTemperaments !== 'all') &&
                     <button onClick={e => handleReloadDogs(e)}> Remove filters</button>} </span>
             </div>
             <div>
                 <div style={{ display: 'inline-block', margin: 10 }}>
                     <div className={'options'}>
-                        <Select options={sortedOptions} value={sortedDogs} onChange={e => handleSort(e)} />
+                        <select id={sortBySelectId} className='inputBox' onChange={handleSort}>
+                            {sortedOptions && sortedOptions.map((t) => {
+                                return (
+                                    <option value={t.value} key={t.value} >{t.label}</option>
+                                )
+                            })}
+                        </select>
                     </div>
                     <div className={'options'}>
-                        <Select options={temperamentsList} value={filteredByTemperaments} onChange={e => handleFilteredTemperament(e)} />
+                        <select className='inputBox' id={temperamentSelectId} onChange={e => handleFilteredTemperament(e)}>
+                            <option value={'all'} key={'all'} >All temperaments</option>
+                            {temperamentsList && temperamentsList.map((t) => {
+                                return (
+                                    <option value={t.name} key={t.id} >{t.name}</option>
+                                )
+                            })}
+                        </select>
                     </div>
                     <div className={'options'}>
-                        <Select options={sourceFilters} value={filteredBySource} onChange={handleFilteredSource} />
+
+                        <select className='inputBox' id={sourceSelectId} onChange={handleFilteredSource}>
+                            {sourceFilters && sourceFilters.map((t) => {
+                                return (
+                                    <option value={t.value} key={t.value} >{t.label}</option>
+                                )
+                            })}
+                        </select>
                     </div>
                 </div>
                 <div>
@@ -188,8 +219,8 @@ export default function Home() {
                 {
                     dogsPerPage && dogsPerPage.map(dog => {
                         return (
-                            <span>
-                                <Dog key={dog.id} id={dog.id} name={dog.name} min_weight={dog.min_weight} max_weight={dog.max_weight} temperaments={dog.temperaments} image={dog.image} />
+                            <span key={dog.id}>
+                                <Dog key={dog.id} id={dog.id} name={dog.name} min_weight={dog.min_weight} max_weight={dog.max_weight} min_height={dog.min_height} temperaments={dog.temperaments} image={dog.image} />
 
                             </span>
                         )

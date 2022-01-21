@@ -135,7 +135,7 @@ const getTemperaments = async (req, res) => {
     });
   });
 
-  const allTemperaments = await Temperament.findAll();
+  const allTemperaments = await Temperament.findAll({order: [['name', 'ASC']]});
   res.send(allTemperaments);
 
 };
